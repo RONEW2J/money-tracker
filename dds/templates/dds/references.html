@@ -1,0 +1,209 @@
+{% extends 'dds/base.html' %}
+
+{% block title %}Справочники - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-cog me-2"></i>Управление справочниками</h1>
+</div>
+
+<div class="row">
+    <!-- Статусы -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-tags me-2"></i>Статусы</h5>
+                <a href="{% url 'dds:status_create' %}" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus me-1"></i>Добавить
+                </a>
+            </div>
+            <div class="card-body">
+                {% if statuses %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for status in statuses %}
+                                <tr>
+                                    <td>{{ status.name }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{% url 'dds:status_update' status.pk %}" 
+                                               class="btn btn-outline-primary" title="Редактировать">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{% url 'dds:status_delete' status.pk %}" 
+                                               class="btn btn-outline-danger" title="Удалить">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">Статусы не найдены</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Типы операций -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-exchange-alt me-2"></i>Типы операций</h5>
+                <a href="{% url 'dds:transaction_type_create' %}" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus me-1"></i>Добавить
+                </a>
+            </div>
+            <div class="card-body">
+                {% if transaction_types %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for type in transaction_types %}
+                                <tr>
+                                    <td>{{ type.name }}</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{% url 'dds:transaction_type_update' type.pk %}" 
+                                               class="btn btn-outline-primary" title="Редактировать">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{% url 'dds:transaction_type_delete' type.pk %}" 
+                                               class="btn btn-outline-danger" title="Удалить">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">Типы операций не найдены</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Категории -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-folder me-2"></i>Категории</h5>
+                <a href="{% url 'dds:category_create' %}" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus me-1"></i>Добавить
+                </a>
+            </div>
+            <div class="card-body">
+                {% if categories %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Тип операции</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                <tr>
+                                    <td>{{ category.name }}</td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ category.transaction_type.name }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{% url 'dds:category_update' category.pk %}" 
+                                               class="btn btn-outline-primary" title="Редактировать">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{% url 'dds:category_delete' category.pk %}" 
+                                               class="btn btn-outline-danger" title="Удалить">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">Категории не найдены</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Подкатегории -->
+    <div class="col-lg-6 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-folder-open me-2"></i>Подкатегории</h5>
+                <a href="{% url 'dds:subcategory_create' %}" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus me-1"></i>Добавить
+                </a>
+            </div>
+            <div class="card-body">
+                {% if subcategories %}
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Название</th>
+                                    <th>Категория</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subcategory in subcategories %}
+                                <tr>
+                                    <td>{{ subcategory.name }}</td>
+                                    <td>
+                                        <span class="badge bg-info">{{ subcategory.category.name }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="{% url 'dds:subcategory_update' subcategory.pk %}" 
+                                               class="btn btn-outline-primary" title="Редактировать">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{% url 'dds:subcategory_delete' subcategory.pk %}" 
+                                               class="btn btn-outline-danger" title="Удалить">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted text-center">Подкатегории не найдены</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

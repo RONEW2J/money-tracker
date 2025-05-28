@@ -1,0 +1,43 @@
+{% extends 'dds/base.html' %}
+
+{% block title %}Удаление операции - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Подтверждение удаления
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="mb-3">Вы уверены, что хотите удалить операцию?</p>
+                
+                <div class="bg-light p-3 rounded mb-3">
+                    <strong>Дата:</strong> {{ transaction.date|date:"d.m.Y" }}<br>
+                    <strong>Тип:</strong> {{ transaction.transaction_type.name }}<br>
+                    <strong>Категория:</strong> {{ transaction.category.name }}<br>
+                    <strong>Подкатегория:</strong> {{ transaction.subcategory.name }}<br>
+                    <strong>Сумма:</strong> {{ transaction.amount|floatformat:2 }} ₽<br>
+                    {% if transaction.comment %}
+                        <strong>Комментарий:</strong> {{ transaction.comment }}
+                    {% endif %}
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash me-1"></i>Да, удалить
+                        </button>
+                        <a href="{% url 'dds:index' %}" class="btn btn-secondary">
+                            <i class="fas fa-times me-1"></i>Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
